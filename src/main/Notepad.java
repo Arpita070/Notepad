@@ -440,7 +440,24 @@ public class Notepad extends JFrame {
 
 
     private static void saveAs(JTextArea textArea) {
-    	
+    	JFileChooser fileChooser = new JFileChooser();
+        int result = fileChooser.showSaveDialog(null);
+
+        if (result == JFileChooser.APPROVE_OPTION) {
+            selectedFilepath = fileChooser.getSelectedFile();
+
+            // The text to be written to the file
+            String content =textArea.getText();
+            np.get(np.size()-1).setTitle(fileChooser.getSelectedFile().toString());
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(selectedFilepath))) {
+                writer.write(content);
+                JOptionPane.showMessageDialog(null, "Text has been written to the file successfully.");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Error writing to the file.");
+            }
+        }
+
         
     }
     private static void save(JTextArea textArea) {
