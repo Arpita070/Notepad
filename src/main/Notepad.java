@@ -377,9 +377,66 @@ public class Notepad extends JFrame {
 
     }
     private static void showCustomDialog(JFrame parentFrame, JTextArea textArea) {
-    
-    }
+    	JDialog customDialog = new JDialog(parentFrame, "Find", true);
+        JLabel label = new JLabel("Find What");
+        JTextField input = new JTextField();
+        JButton findButton = new JButton("Find Next");
+        JButton closeButton = new JButton("Close");
+        String preword;
+        wordindex = new ArrayList<>();
+       
+        findButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String searchText = input.getText();
+                String text = textArea.getText();
 
+                String regex = "\\b" + Pattern.quote(searchText) + "\\b";
+                Pattern pattern = Pattern.compile(regex);
+                Matcher matcher = pattern.matcher(text);
+                System.out.println(matcher.toString());
+
+                while (matcher.find()) {
+                    int startIndex = matcher.start();
+                    int endIndex = matcher.end() ;
+                    wordindex.add(startIndex);
+                    
+                }
+                textArea.setSelectionStart(wordindex.get(findwordindex));
+                textArea.setSelectionEnd(wordindex.get(findwordindex)+searchText.length());
+                textArea.setSelectedTextColor(new Color(37, 161, 146));
+                findwordindex++;
+            }
+        });
+
+        closeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	findwordindex=0;
+            	wordindex.clear();
+                customDialog.dispose();
+            }
+        });
+
+        JPanel panel = new JPanel();
+        panel.setLayout(null);
+        label.setBounds(10, 10, 80, 25);
+        input.setBounds(100, 10, 100, 25);
+        findButton.setBounds(210, 10, 120, 25);
+        closeButton.setBounds(210, 50, 120, 25);
+        
+        panel.add(label);
+        panel.add(input);
+        panel.add(findButton);
+        panel.add(closeButton);
+
+        customDialog.getContentPane().add(panel); // Add the panel to the content pane
+
+        customDialog.setSize(350, 150);
+        customDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        customDialog.setLocationRelativeTo(parentFrame);
+        customDialog.setVisible(true);
+    }
 
 
     private static void saveAs(JTextArea textArea) {
