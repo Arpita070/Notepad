@@ -361,7 +361,20 @@ public class Notepad extends JFrame {
     }
 
     private static void readAndDisplayFileContents(File file,JTextArea textArea) {
-        
+    	try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            StringBuilder content = new StringBuilder();
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                content.append(line).append("\n");
+            }
+            textArea.setText(content.toString());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error reading file", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
     }
     private static void showCustomDialog(JFrame parentFrame, JTextArea textArea) {
     
