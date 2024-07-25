@@ -461,7 +461,16 @@ public class Notepad extends JFrame {
         
     }
     private static void save(JTextArea textArea) {
-            
+    	   String content =textArea.getText();
+
+           try (BufferedWriter writer = new BufferedWriter(new FileWriter(selectedFilepath))) {
+               writer.write(content);
+               JOptionPane.showMessageDialog(null, "Text has been written to the file successfully.");
+           } catch (IOException ex) {
+               ex.printStackTrace();
+               JOptionPane.showMessageDialog(null, "Error writing to the file.");
+           }
+   }
+
     }
     
-}
