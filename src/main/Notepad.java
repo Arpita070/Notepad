@@ -348,7 +348,15 @@ public class Notepad extends JFrame {
     }
 
     private static void showFileChooser(JFrame frame,JTextArea textArea) {
-     
+    	 JFileChooser fileChooser = new JFileChooser();
+
+         int result = fileChooser.showOpenDialog(frame);
+
+         if (result == JFileChooser.APPROVE_OPTION) {
+             File selectedFile = fileChooser.getSelectedFile();
+             readAndDisplayFileContents(selectedFile,textArea);
+         }
+
         
     }
 
